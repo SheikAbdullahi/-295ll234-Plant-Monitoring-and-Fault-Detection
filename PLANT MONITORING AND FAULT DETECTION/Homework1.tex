@@ -1,0 +1,149 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{array}
+\begin{document}
+\title{Universitat Politècnica de Catalunya · Barcelona Tech - UPC
+
+Escola d'Enginyeria de Barcelona Est EEBE
+
+Homework 1, Metrics for Evaluating Multi-Class Classification Problems}
+\author{Sheik, Abdullahi}
+\date{25 September}
+\maketitle
+
+Given a confusion matrix:
+\[
+\begin{array}{c|cccc}
+& A & B & C & D \\
+\hline
+A & 2542 & 2 & 1 & 15 \\
+B & 7 & 1231 & 40 & 2 \\
+C & 1 & 45 & 1230 & 4 \\
+D & 36 & 6 & 3 & 1225 \\
+\end{array}
+\]
+
+\section*{Definitions:}
+\begin{itemize}
+    \item \(tp\) (true positive): Number of correct positive predictions for a class.
+    \item \(tn\) (true negative): Number of correct negative predictions for a class.
+    \item \(fp\) (false positive): Number of incorrect positive predictions for a class.
+    \item \(fn\) (false negative): Number of incorrect negative predictions for a class.
+\end{itemize}
+
+\section*{Computations:}
+\subsection*{1. Average Accuracy (\( \bar{acc} \))}
+\[
+\bar{acc} = \frac{1}{l} \sum_{i=1}^{l} \frac{tp_i + tn_i}{tp_i + fn_i + fp_i + tn_i}
+\]
+
+\subsection*{2. Micro-Averaged Precision (\( \bar{ppv}_\mu \))}
+\[
+\bar{ppv}_\mu = \frac{\sum_{i=1}^{l} tp_i}{\sum_{i=1}^{l} (tp_i + fp_i)}
+\]
+
+\subsection*{3. Micro-Averaged Recall (\( \bar{tpr}_\mu \))}
+\[
+\bar{tpr}_\mu = \frac{\sum_{i=1}^{l} tp_i}{\sum_{i=1}^{l} (tp_i + fn_i)}
+\]
+
+\subsection*{4. Micro-Averaged F1 Score (\( F_{1\mu} \))}
+\[
+F_{1\mu} = \frac{2 \cdot (\bar{ppv}_\mu \cdot \bar{tpr}_\mu)}{\bar{ppv}_\mu + \bar{tpr}_\mu}
+\]
+
+\subsection*{5. Macro-Averaged Specificity (\( \bar{tnr}_M \))}
+\[
+\bar{tnr}_M = \frac{1}{l} \sum_{i=1}^{l} \frac{tn_i}{tn_i + fp_i}
+\]
+
+\subsection*{6. Micro-Averaged Specificity (\( \bar{tnr}_\mu \))}
+\[
+\bar{tnr}_\mu = \frac{\sum_{i=1}^{l} tn_i}{\sum_{i=1}^{l} (tn_i + fp_i)}
+\]
+
+\section*{Calculations:}
+Let's use the given formulas to calculate the metrics:
+
+\subsection*{Class-wise Metrics}
+\textbf{Class A:}
+\begin{align*}
+tp_A &= 2542 \\
+fn_A &= 7 + 1 + 36 = 44 \\
+fp_A &= 2 + 1 + 15 = 18 \\
+tn_A &= 1231 + 40 + 2 + 45 + 1230 + 4 + 6 + 3 + 1225 = 3786
+\end{align*}
+
+\textbf{Class B:}
+\begin{align*}
+tp_B &= 1231 \\
+fn_B &= 2 + 45 + 6 = 53 \\
+fp_B &= 7 + 40 + 2 = 49 \\
+tn_B &= 2542 + 1 + 15 + 1 + 1230 + 4 + 36 + 3 + 1225 = 5056
+\end{align*}
+
+\textbf{Class C:}
+\begin{align*}
+tp_C &= 1230 \\
+fn_C &= 1 + 40 + 3 = 44 \\
+fp_C &= 1 + 4 = 5 \\
+tn_C &= 2542 + 2 + 15 + 7 + 1231 + 2 + 36 + 6 + 1225 = 5064
+\end{align*}
+
+\textbf{Class D:}
+\begin{align*}
+tp_D &= 1225 \\
+fn_D &= 15 + 2 + 4 = 21 \\
+fp_D &= 36 + 6 + 3 = 45 \\
+tn_D &= 2542 + 2 + 1 + 7 + 1231 + 40 + 1 + 45 + 1230 = 5099
+\end{align*}
+
+\subsection*{1. Average Accuracy (\( \bar{acc} \))}
+\[
+\bar{acc} = \frac{1}{4} \left( \frac{2542 + 3786}{2542 + 44 + 18 + 3786} + \frac{1231 + 5056}{1231 + 53 + 49 + 5056} + \frac{1230 + 5064}{1230 + 44 + 5 + 5064} + \frac{1225 + 5099}{1225 + 21 + 45 + 5099} \right)
+\]
+\[ \bar{acc} \approx \frac{1}{4} \left( 0.992 + 0.988 + 0.990 + 0.988 \right) \]
+\[ \bar{acc} \approx 0.9895 \]
+
+
+\subsection*{2. Micro-Averaged Precision (\( \bar{ppv}_\mu \))}
+\[
+\bar{ppv}_\mu = \frac{2542 + 1231 + 1230 + 1225}{(2542 + 18) + (1231 + 49) + (1230 + 5) + (1225 + 45)}
+\]
+\[ \bar{ppv}_\mu \approx \frac{6228}{6294} \]
+\[ \bar{ppv}_\mu \approx 0.9895 \]
+
+
+\subsection*{3. Micro-Averaged Recall (\( \bar{tpr}_\mu \))}
+\[
+\bar{tpr}_\mu = \frac{2542 + 1231 + 1230 + 1225}{(2542 + 44) + (1231 + 53) + (1230 + 44) + (1225 + 21)}
+\]
+\[ \bar{tpr}_\mu \approx \frac{6228}{6338} \]
+\[ \bar{tpr}_\mu \approx 0.9827 \]
+
+
+\subsection*{4. Micro-Averaged F1 Score (\( F_{1\mu} \))}
+\[
+F_{1\mu} = \frac{2 \cdot (\bar{ppv}_\mu \cdot \bar{tpr}_\mu)}{\bar{ppv}_\mu + \bar{tpr}_\mu}
+\]
+\[ F_{1\mu} \approx \frac{2 \cdot (0.9724)}{1.9722} \]
+\[ F_{1\mu} \approx 0.9860 \]
+
+
+\subsection*{5. Macro-Averaged Specificity (\( \bar{tnr}_M \))}
+\[
+\bar{tnr}_M = \frac{1}{4} \left( \frac{3786}{3786 + 18} + \frac{5056}{5056 + 49} + \frac{5064}{5064 + 5} + \frac{5099}{5099 + 45} \right)
+\]
+\[ \bar{tnr}_M \approx \frac{1}{4} \left( 0.995 + 0.990 + 0.999 + 0.991 \right) \]
+\[ \bar{tnr}_M \approx 0.9938 \]
+
+
+\subsection*{6. Micro-Averaged Specificity (\( \bar{tnr}_\mu \))}
+\[
+\bar{tnr}_\mu = \frac{3786 + 5056 + 5064 + 5099}{(3786 + 18) + (5056 + 49) + (5064 + 5) + (5099 + 45)}
+\]
+\[ \bar{tnr}_\mu \approx \frac{19005}{19026} \]
+\[ \bar{tnr}_\mu \approx 0.9989 \]
+
+
+\end{document}
