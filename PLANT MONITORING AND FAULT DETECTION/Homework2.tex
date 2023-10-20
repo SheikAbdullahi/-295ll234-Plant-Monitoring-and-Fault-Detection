@@ -1,0 +1,132 @@
+\documentclass{article}
+\usepackage{amsmath}
+
+\begin{document}
+
+\title{Universitat Politècnica de Catalunya · Barcelona Tech - UPC
+
+Escola d'Enginyeria de Barcelona Est EEBE
+
+Homework 2, Metrics for Evaluating Multi-Class Classification Problems}
+\author{Sheik, Abdullahi}
+\date{October 2023}
+\maketitle
+
+
+\section*{Problem 1: Paper [1] defines the average accuracy (equation (1) in the paper) as the sum of the true
+positive rate of each class divided by the number of classes. Is the same expression as in
+slide 19?}
+
+\begin{enumerate}
+    \item The first equation calculates the average accuracy by taking the average of the True Positive Rate (or Recall) of each class. The True Positive Rate for a class is calculated as:
+    \begin{equation}
+        \text{TPR}_i = \frac{\text{tp}_i}{\text{tp}_i + \text{fn}_i}
+    \end{equation}
+    where \( \text{TPR}_i \) is the True Positive Rate for class \( i \), \( \text{tp}_i \) is the number of True Positives for class \( i \), and \( \text{fn}_i \) is the number of False Negatives for class \( i \).
+    \begin{equation}
+        \text{acc} = \frac{1}{C} \sum_{i=1}^{C} \text{TPR}_i
+    \end{equation}
+    where \( C \) is the number of classes.
+    
+    \item The second equation calculates the average accuracy as the average of the sum of True Positives and True Negatives divided by the total number of instances (True Positives, True Negatives, False Positives, False Negatives) for each class:
+    \begin{equation}
+        \overline{\text{acc}} = \frac{1}{l} \sum_{i=1}^{l} \frac{\text{tp}_i + \text{tn}_i}{\text{tp}_i + \text{fn}_i + \text{fp}_i + \text{tn}_i}
+    \end{equation}
+    where \( l \) is the number of classes.
+\end{enumerate}
+
+\textbf{Summary}
+\begin{itemize}
+    \item The first equation calculates the average of the True Positive Rates (Recall) across all classes, considering only True Positives and False Negatives for each class.
+    \item The second equation calculates the average accuracy by considering all True Positives, True Negatives, False Positives, and False Negatives for each class.
+\end{itemize}
+
+They measure different aspects of a classifier's performance and are not equivalent.
+
+
+
+\section{Problem 2: Paper [2] defines the accuracy and the macro-average arithmetic, as well as the partial
+accuracy of each class. How do these three measures relate to the average accuracy in
+paper [1]? }
+
+Let's break down the provided equations to understand them better.
+
+\section*{Equation 1:}
+\begin{equation}
+    \text{Acc} = \frac{\sum_{i=1}^{m} \sum_{j=1}^{c} f(i, j) \cdot C(i, j)}{m}
+\end{equation}
+\begin{itemize}
+    \item \( \text{Acc} \): Represents the accuracy.
+    \item \( m \): The total number of instances.
+    \item \( c \): The number of classes.
+    \item \( f(i, j) \): It might represent a binary indicator reflecting the correct classification of an instance, i.e., it is 1 if instance \( i \) is correctly classified as class \( j \) and 0 otherwise.
+    \item \( C(i, j) \): Represents a cost function or a confusion matrix element, depending on the context.
+\end{itemize}
+
+This equation sums over all instances and all classes and divides by the total number of instances. It seems to represent an overall accuracy, weighted by the cost function or confusion matrix element.
+
+\section*{Equation 2:}
+\begin{equation}
+    \text{MAvA} = \sum_{j=1}^{c} \frac{ \left( \frac{\sum_{i=1}^{m} f(i, j) \cdot C(i, j)}{m_j} \right)}{C}
+\end{equation}
+\begin{itemize}
+    \item \( \text{MAvA} \): Represents the macro-average accuracy.
+    \item \( m_j \): Represents the number of instances in class \( j \).
+    \item \( C \): The number of classes.
+\end{itemize}
+
+This equation calculates a per-class average (hence the term "macro-average"), where for each class, it calculates a weighted average (by \( f(i, j) \cdot C(i, j) \)) and then averages over all classes.
+
+The first equation, \( \text{Acc} \), is an overall measure, likely a form of weighted accuracy where each instance's contribution is weighted by the corresponding \( C(i, j) \).
+
+The second equation, \( \text{MAvA} \), is a form of macro-averaged accuracy where each class contributes equally to the final average, regardless of the number of instances in each class.
+
+In summary, while both equations incorporate weights and involve summation over instances and classes, they represent different forms of averages: the first one is more of a global, weighted average, and the second one is a macro-average where each class has an equal contribution to the final average, irrespective of its size (number of instances).
+
+
+\section*{Problem 3: Paper [3] also defines the average accuracy. How does this measure relate to the measures in papers [1] and [2]? Compute all these measures for the table in Problem #1.}
+
+
+Given the corrected confusion matrix:
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+  & A & B & C & D \\
+\hline
+A & 2542 & 2 & 1 & 15 \\
+\hline
+B & 7 & 1231 & 40 & 2 \\
+\hline
+C & 1 & 45 & 1230 & 4 \\
+\hline
+D & 36 & 6 & 3 & 1235 \\
+\hline
+\end{tabular}
+\caption{Confusion Matrix}
+\label{table:confusion_matrix}
+\end{table}
+
+
+\subsection*{Corrected Metrics for Each Class:}
+
+\begin{itemize}
+    \item \textbf{True Positives (tp):} A: 2542, B: 1231, C: 1230, D: 1235
+    \item \textbf{False Positives (fp):} A: 44, B: 53, C: 44, D: 21
+    \item \textbf{False Negatives (fn):} A: 18, B: 49, C: 50, D: 45
+    \item \textbf{True Negatives (tn):} A: 3786, B: 5057, C: 5066, D: 5089
+    \item \textbf{True Positive Rate (Recall) (TPR):} A: 0.993, B: 0.962, C: 0.961, D: 0.965
+    \item \textbf{Precision (ppv):} A: 0.983, B: 0.959, C: 0.965, D: 0.983
+    \item \textbf{Specificity (tnr):} A: 0.989, B: 0.990, C: 0.991, D: 0.996
+    \item \textbf{Accuracy (per class):} A: 0.990, B: 0.984, C: 0.985, D: 0.990
+\end{itemize}
+
+\subsection*{Corrected Overall Metrics:}
+
+\begin{itemize}
+    \item \textbf{Average Accuracy:} 0.987
+    \item \textbf{Macro Average Accuracy (MAvA):} 0.987
+    \item \textbf{Weighted Accuracy (Acc) from problem 2:} 1724.571
+\end{itemize}
+\end{document}
