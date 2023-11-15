@@ -32,8 +32,6 @@ act_1_test_unfolded = act_1_test.reshape(act_1_test.shape[0], -1)
 # Projecting the unfolded testing data onto the PCA model using the transformation matrix
 pca_test_data = np.dot(act_1_test_unfolded, transformation_matrix.T)
 
-
-
 # Plotting the first two PCA components of the testing data
 plt.figure(figsize=(12, 8))
 plt.scatter(pca_test_data[:, 0], pca_test_data[:, 1], alpha=0.7)
